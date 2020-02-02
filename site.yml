@@ -12,4 +12,5 @@
   roles:
     - patching
     - install_mysql
+    - install_nginx
 

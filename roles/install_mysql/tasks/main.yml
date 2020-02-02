@@ -35,6 +35,9 @@
   template:
     src: ../templates/root.my.cnf.j2
     dest: /root/.my.cnf
+
+- name: Removes the MySQL test database
+  mysql_db: db=test state=absent
  
 - name: Create a new database for Application 
   mysql_db:
