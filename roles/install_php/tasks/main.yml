@@ -1,0 +1,66 @@
+---
+- name: Install EPEL Repo
+  shell: yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
+  ignore_errors: yes
+
+- name: Install Remi Repo
+  shell: yum install https://rpms.remirepo.net/enterprise/remi-release-7.rpm -y
+  ignore_errors: yes
+  
+- name: Install Yum utilities
+  shell: yum install yum-utils -y
+  ignore_errors: yes
+
+- name: Enable PHP repo
+  shell: yum-config-manager --enable remi-php73
+  when: php_version == "php7.3"
+
+- name: Enable PHP repo
+  shell: yum-config-manager --enable remi-php74
+  when: php_version == "php7.4"
+
+- name: Install Php and All the dependencies
+  yum:
+    state: latest
+    name:
+      - php
+      - php-pdo
+      - php-process
+      - php-cli
+      - php-pear
+      - php-fpm
+      - php-common
+      - php-xml
+      - php-mysqlnd
+      - php-gd
+      - php-soap
+      - php-mbstring
+      - php-ldap
+      - php-json
+
+- name: Copy php.ini file
+  copy:
+    src: ../files/php.ini
+    dest: /etc/php.ini
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Copy www.conf file
+  copy:
+    src: ../files/www.conf
+    dest: /etc/php-fpm.d/www.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Starting and enabling Php-fpm
+  service: name=php-fpm state=started enabled=yes
+
+- name: Copy index.php
+  copy:
+    src: ../files/index.php
+    dest: /usr/share/nginx/html/index.php
+    owner: root
+    group: root
+    mode: '0644'

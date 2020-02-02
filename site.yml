@@ -9,9 +9,11 @@
     - application_user_password: "d3v0p$t3amr0ck$123_bro_2Cvjhadd_jiH"
     - remote_host_ip: "%"
     - domain_name: "intranet.infolytx.net"
+    - php_version: "php7.3"  # To install php7.4 just replace the 3 with 4
 
   roles:
     - patching
     - install_mysql
     - install_nginx
-
+    - install_php
+    - finalization
