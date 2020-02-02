@@ -8,6 +8,7 @@
     - database_for_application: "wordpress_blog"
     - application_user_password: "d3v0p$t3amr0ck$123_bro_2Cvjhadd_jiH"
     - remote_host_ip: "%"
+    - domain_name: "intranet.infolytx.net"
 
   roles:
     - patching

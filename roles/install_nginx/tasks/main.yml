@@ -9,3 +9,8 @@
 
 - name: Start and Enable Nginx webserver
   service: name=nginx state=started enabled=yes
+
+- name: Copy Nginx configuration
+  template:
+    src: ../templates/server.conf.j2
+    dest: /etc/nginx/conf.d/server.conf
