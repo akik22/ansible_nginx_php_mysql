@@ -3,12 +3,12 @@
   become: yes
 
   vars:
-    - new_mysql_root_password: "d3v0p$t3amr0ck$123_bro_2Cvjhadd_jiH"
-    - application_user_name: "application_user"
-    - database_for_application: "wordpress_blog"
-    - application_user_password: "d3v0p$t3amr0ck$123_bro_2Cvjhadd_jiH"
-    - remote_host_ip: "%"
-    - domain_name: "192.168.2.151"
+    - new_mysql_root_password: "<password goes here>"
+    - application_user_name: "<username goes here"
+    - database_for_application: "DB nama goes here"
+    - application_user_password: "App user password goes here"
+    - remote_host_ip: "%" # Change for Other IP's
+    - domain_name: "test.domain.com" # Put the domain name here
     - php_version: "php7.3"  # To install php7.4 just replace the 3 with 4
 
   roles:

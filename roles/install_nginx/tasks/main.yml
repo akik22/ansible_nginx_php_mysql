@@ -4,10 +4,10 @@
     src: ../templates/nginx.repo.j2
     dest: /etc/yum.repos.d/nginx.repo
 
-- name: Install Nginx Webserver
+- name: Installing Nginx Webserver
   yum: name=nginx update_cache=yes state=latest
 
-- name: Start and Enable Nginx webserver
+- name: Starting and Enabling Nginx webserver
   service: name=nginx state=started enabled=yes
 
 - name: Copy Nginx configuration
