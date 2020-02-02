@@ -1,0 +1,50 @@
+---
+- copy:
+    src: ../files/mysql-community.repo
+    dest: /etc/yum.repos.d/mysql-community.repo
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Install Mysql Server
+  yum: name=mysql-server update_cache=yes state=latest
+
+- name: Install necessary package for Mysql in CentOS
+  yum: name=MySQL-python update_cache=yes state=latest
+
+- name: Start and Enable Mysql Server
+  service: name=mysqld state=started enabled=yes
+  
+- name: Get the mysql temporary password
+  shell: awk '/A temporary password is generated for/ {a=$0} END{ print a }' /var/log/mysqld.log | awk '{print $(NF)}'
+  register: msyql_temp_pass
+
+- name: Generate temporary login for User root 
+  template:
+    src: ../templates/my.cnf.j2
+    dest: /root/.my.cnf
+
+- name: Change the root password with new password
+  command: >
+     mysql --user=root --connect-expired-password --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY '{{ new_mysql_root_password }}'; flush privileges;"
+    
+- name: Restart MySQL service for Final use
+  service: name=mysqld state=restarted
+
+- name: Create Login for MySQL Root User
+  template:
+    src: ../templates/root.my.cnf.j2
+    dest: /root/.my.cnf
+ 
+- name: Create a new database for Application 
+  mysql_db:
+    name: '{{ database_for_application }}'
+    state: present
+   
+- name: Create Application User
+  mysql_user:
+    name: '{{ application_user_name }}'
+    password: '{{ application_user_password }}'
+    priv: '*.*:ALL'
+    host: '{{ remote_host_ip }}'
+    state: present

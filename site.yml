@@ -1,0 +1,15 @@
+---
+- hosts: blog
+  become: yes
+
+  vars:
+    - new_mysql_root_password: "d3v0p$t3amr0ck$123_bro_2Cvjhadd_jiH"
+    - application_user_name: "application_user"
+    - database_for_application: "wordpress_blog"
+    - application_user_password: "d3v0p$t3amr0ck$123_bro_2Cvjhadd_jiH"
+    - remote_host_ip: "%"
+
+  roles:
+    - patching
+    - install_mysql
+
