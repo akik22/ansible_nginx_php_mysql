@@ -1,5 +1,5 @@
 ---
-- hosts: blog
+- hosts: <hostname goes here> 
   become: yes
 
   vars:
